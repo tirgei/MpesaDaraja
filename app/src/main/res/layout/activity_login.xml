@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gelostech.mpesadaraja.Login"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="5"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
+                    android:text="@string/app_name"
+                    android:textSize="40sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:padding="40dp"
+                android:visibility="visible"
+                android:id="@+id/phone_ui"
+                android:layout_weight="3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="20dp"
+                    android:textColor="@android:color/black"
+                    android:text="You are required to sign in"
+                    android:fontFamily="sans-serif-condensed"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_background"
+                    android:paddingLeft="10dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/phoneIcon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:padding="5dp"
+                        android:alpha="0.7"
+                        android:layout_margin="5dp"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:padding="15dp"
+                        android:id="@+id/phone_text"
+                        android:textSize="14sp"
+                        android:inputType="phone"
+                        android:hint="Enter your phone number"/>
+
+                </LinearLayout>
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="SIGN IN"
+                    android:id="@+id/signinBtn"
+                    android:textColor="@android:color/black"
+                    android:background="?selectableItemBackground"
+                    android:layout_marginTop="20dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp"
+                android:id="@+id/verify_ui"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:background="@android:color/white"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:id="@+id/verify_msg"
+                    tools:text="Please enter the code sent via SMS below"
+                    android:fontFamily="sans-serif-condensed"/>
+
+                <com.chaos.view.PinView
+                    android:id="@+id/pinView"
+                    style="@style/PinWidget.PinView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:hint=""
+                    android:inputType="number"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:cursorVisible="true"
+                    app:cursorColor="@color/colorAccent"
+                    app:cursorWidth="2dp"
+                    app:itemCount="6"
+                    app:itemHeight="48dp"
+                    app:itemRadius="4dp"
+                    app:itemSpacing="5dp"
+                    app:itemWidth="36dp"
+                    app:lineColor="@color/colorAccent"
+                    app:lineWidth="2dp"
+                    app:viewType="rectangle" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="VERIFY"
+                    android:id="@+id/verify"
+                    android:textColor="@color/colorAccent"
+                    android:background="?selectableItemBackground"
+                    android:layout_marginTop="20dp"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Change number"
+                    android:id="@+id/change_number"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:background="?selectableItemBackground"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:textSize="12sp"
+        android:text="We will send you an SMS verification"
+        android:alpha="0.5"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+</RelativeLayout>
