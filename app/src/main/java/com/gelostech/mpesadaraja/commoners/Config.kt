@@ -14,4 +14,6 @@ object Config {
     const val NOTIFICATION_ID_BIG_IMAGE = 101
 
     const val SHARED_PREF = "ah_firebase"
+
+    const val CONFIRMATION_URL = "https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query"
 }
