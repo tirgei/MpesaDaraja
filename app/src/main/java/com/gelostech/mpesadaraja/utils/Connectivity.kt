@@ -1,4 +1,4 @@
-package com.gelostech.mpesadaraja
+package com.gelostech.mpesadaraja.utils
 
 import android.content.Context
 import android.telephony.TelephonyManager

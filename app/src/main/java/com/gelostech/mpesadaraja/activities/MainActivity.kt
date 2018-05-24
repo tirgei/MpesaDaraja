@@ -1,4 +1,4 @@
-package com.gelostech.mpesadaraja
+package com.gelostech.mpesadaraja.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -8,6 +8,9 @@ import android.widget.EditText
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import com.gelostech.mpesadaraja.utils.Connectivity
+import com.gelostech.mpesadaraja.commoners.Constants
+import com.gelostech.mpesadaraja.R
 import com.google.firebase.auth.FirebaseAuth
 import com.twigafoods.daraja.Daraja
 import com.twigafoods.daraja.DarajaListener
@@ -79,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             Constants.PAYBILL,
             Constants.PASSKEY,
             amount.text.toString().trim(),
-            Constants.TEST_MSISDN,
+            phoneNumber.text.toString().trim(),
             Constants.PAYBILL,
             phoneNumber.text.toString().trim(),
             Constants.CALLBACK_URL,

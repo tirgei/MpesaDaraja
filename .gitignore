@@ -75,5 +75,5 @@ gen-external-apklibs
 ehthumbs.db
 Thumbs.db
 
-/app/src/main/java/com/gelostech/mpesadaraja/Constants.kt
+/app/src/main/java/com/gelostech/mpesadaraja/commoners/Constants.kt
 app/libs/
