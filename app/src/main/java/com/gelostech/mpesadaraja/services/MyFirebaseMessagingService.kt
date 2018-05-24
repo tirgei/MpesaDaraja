@@ -67,30 +67,22 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         try {
 
-            val title = json.getString("title")
-            val message = json.getString("message")
-            val imageUrl = json.getString("image")
-            val timestamp = json.getString("timestamp")
-
-            Log.e(TAG, "title: $title")
-            Log.e(TAG, "message: $message")
-            Log.e(TAG, "imageUrl: $imageUrl")
-            Log.e(TAG, "timestamp: $timestamp")
-
-
-            /*if (!NotificationUtils(this).isAppIsInBackground(applicationContext)) {
-                // app is in foreground, broadcast the push message
+            if (json.getString("type") == "topup"){
                 val pushNotification = Intent(Config.PUSH_NOTIFICATION)
-                pushNotification.putExtra("message", message)
+                pushNotification.putExtra("type", "topup")
                 LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification)
 
-                // play notification sound
-                val notificationUtils = NotificationUtils(applicationContext)
-                notificationUtils.playNotificationSound()
-            } else {*/
-                // app is in background, show the notification in notification tray
+                return
+
+            } else if (json.getString("type") == "welcome") {
+
+                val title = json.getString("title")
+                val message = json.getString("message")
+                val imageUrl = json.getString("image")
+                val timestamp = json.getString("timestamp")
+
                 val resultIntent = Intent(applicationContext, MainActivity::class.java)
-                resultIntent.putExtra("message", message)
+                    resultIntent.putExtra("message", message)
 
                 // check for image attachment
                 if (TextUtils.isEmpty(imageUrl)) {
@@ -99,7 +91,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     // image is present, show notification with image
                     showNotificationMessageWithBigImage(applicationContext, title, message, timestamp, resultIntent, imageUrl)
                 }
-            //}
+            }
+
         } catch (e: JSONException) {
             Log.e(TAG, "Json Exception: " + e.message)
         } catch (e: Exception) {
