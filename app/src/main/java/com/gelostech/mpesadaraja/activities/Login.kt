@@ -21,7 +21,8 @@ import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
-
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.iid.FirebaseInstanceId
 
 
 class Login : AppCompatActivity() {
@@ -160,13 +161,28 @@ class Login : AppCompatActivity() {
                         val user = task.result.user
                         Log.d(javaClass.simpleName, "signInWithCredential:success: ${user.uid}")
 
-                        startActivity(Intent(this@Login, MainActivity::class.java))
-                        finish()
+                        createUser(user)
 
                     } else {
                         Log.w(javaClass.simpleName, "signInWithCredential:failure", task.exception)
                     }
                 })
+    }
+
+    private fun createUser(user: FirebaseUser) {
+        val dbRef = FirebaseDatabase.getInstance().reference
+        val key = dbRef.child("users").push().key
+
+        val newUser = mutableMapOf<String, String>()
+        newUser["id"] = key
+        newUser["username"] = "Vincent Tirgei"
+        newUser["phone"] = user.phoneNumber!!.toString()
+        newUser["token"] = FirebaseInstanceId.getInstance().token!!.toString()
+
+        dbRef.child("users").child(key).setValue(newUser)
+
+        startActivity(Intent(this@Login, MainActivity::class.java))
+        finish()
     }
 
     private fun formattedPhone(phn:String):String? {
