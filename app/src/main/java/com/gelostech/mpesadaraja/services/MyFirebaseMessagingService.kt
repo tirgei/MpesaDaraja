@@ -91,6 +91,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     // image is present, show notification with image
                     showNotificationMessageWithBigImage(applicationContext, title, message, timestamp, resultIntent, imageUrl)
                 }
+            } else if (json.getString("type") == "balance_update") {
+
+                val title = json.getString("title")
+                val message = json.getString("message")
+                val imageUrl = json.getString("image")
+                val timestamp = json.getString("timestamp")
+
+                val resultIntent = Intent(applicationContext, MainActivity::class.java)
+                resultIntent.putExtra("message", message)
+
+                // check for image attachment
+                if (TextUtils.isEmpty(imageUrl)) {
+                    showNotificationMessage(applicationContext, title, message, timestamp, resultIntent)
+                } else {
+                    // image is present, show notification with image
+                    showNotificationMessageWithBigImage(applicationContext, title, message, timestamp, resultIntent, imageUrl)
+                }
             }
 
         } catch (e: JSONException) {

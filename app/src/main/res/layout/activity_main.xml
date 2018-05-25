@@ -17,6 +17,38 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:title="@string/app_name"/>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_toolbar"
+        android:padding="10dp"
+        android:id="@+id/accountBalanceLayout"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/balanceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="Account balance: "
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_toEndOf="@id/balanceTitle"
+            android:layout_toRightOf="@id/balanceTitle"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            tools:text="1"/>
+
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

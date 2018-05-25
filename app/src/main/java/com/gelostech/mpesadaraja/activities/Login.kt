@@ -10,6 +10,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import com.gelostech.mpesadaraja.R
+import com.gelostech.mpesadaraja.User
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
@@ -46,6 +47,11 @@ class Login : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (FirebaseAuth.getInstance().currentUser != null){
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         if (savedInstanceState != null) {
@@ -171,15 +177,15 @@ class Login : AppCompatActivity() {
 
     private fun createUser(user: FirebaseUser) {
         val dbRef = FirebaseDatabase.getInstance().reference
-        val key = dbRef.child("users").push().key
 
-        val newUser = mutableMapOf<String, String>()
-        newUser["id"] = key
-        newUser["username"] = "Vincent Tirgei"
-        newUser["phone"] = user.phoneNumber!!.toString()
-        newUser["token"] = FirebaseInstanceId.getInstance().token!!.toString()
+        val newUser = User()
+        newUser.id = user.uid
+        newUser.username = "Vincent Tirgei"
+        newUser.phone = user.phoneNumber!!.toString()
+        newUser.token = FirebaseInstanceId.getInstance().token!!.toString()
+        newUser.balance = 0
 
-        dbRef.child("users").child(key).setValue(newUser)
+        dbRef.child("users").child(user.uid).setValue(newUser)
 
         startActivity(Intent(this@Login, MainActivity::class.java))
         finish()

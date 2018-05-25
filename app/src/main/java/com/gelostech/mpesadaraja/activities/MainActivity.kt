@@ -17,9 +17,11 @@ import android.view.View
 import com.gelostech.mpesadaraja.utils.Connectivity
 import com.gelostech.mpesadaraja.commoners.Constants
 import com.gelostech.mpesadaraja.R
+import com.gelostech.mpesadaraja.User
 import com.gelostech.mpesadaraja.commoners.Config
 import com.gelostech.mpesadaraja.utils.NotificationUtils
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId
 import com.twigafoods.daraja.Daraja
 import com.twigafoods.daraja.DarajaListener
@@ -42,6 +44,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var checkoutId: String
     private lateinit var userToken:String
     private var isProcessing = false
+    private lateinit var dbRef: DatabaseReference
+    private lateinit var uid:String
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
@@ -49,9 +53,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
-        if (FirebaseAuth.getInstance().currentUser == null)
-            startActivity(Intent(this, Login::class.java))
+        // clear the notification area when the app is opened
+        NotificationUtils(this).clearNotifications()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +63,10 @@ class MainActivity : AppCompatActivity() {
 
         initDaraja()
         initBroadcastReceiver()
+
+        uid = FirebaseAuth.getInstance().currentUser!!.uid
+        dbRef = FirebaseDatabase.getInstance().reference.child("users").child(uid)
+        dbRef.addValueEventListener(balanceListener)
 
         pay.setOnClickListener { if (Connectivity.isConnected(this)) makePayment() else toast("Please connect to the internet")}
     }
@@ -90,6 +97,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val balanceListener = object : ValueEventListener{
+        override fun onCancelled(p0: DatabaseError?) {
+
+        }
+
+        override fun onDataChange(p0: DataSnapshot?) {
+            if (p0!!.exists()) {
+                val user = p0.getValue(User::class.java)
+                balance.text = user!!.balance?.toString()
+            } else {
+                balance.text = "0"
+            }
+        }
+    }
+
     private fun makePayment() {
         if (isProcessing) {
             toast("Please wait for current transaction to complete...")
@@ -115,7 +137,6 @@ class MainActivity : AppCompatActivity() {
 
                 isProcessing = true
                 checkoutId = result.CheckoutRequestID
-                clearFields(phoneNumber, amount)
                 //Handler().postDelayed({checkStatus(result)}, 5000)
             }
 
@@ -168,11 +189,45 @@ class MainActivity : AppCompatActivity() {
 
                     runOnUiThread {
                         when(resultCode) {
-                            0 -> toast("Payment Successful")
+                            0 -> {
+                                toast("Payment Successful")
+                                updateBalance()
+                            }
                             else -> toast("Payment failed. Please try again")
                         }
                     }
 
+                }
+            }
+        })
+    }
+
+    private fun updateBalance() {
+        val client = OkHttpClient()
+        val url = HttpUrl.parse(Constants.UPDATE_BALANCE_URL)
+        val urlBuilder = url!!.newBuilder()
+
+        urlBuilder.addQueryParameter("uid", uid)
+        urlBuilder.addQueryParameter("checkoutId", checkoutId)
+        urlBuilder.addQueryParameter("time", System.currentTimeMillis().toString())
+        urlBuilder.addQueryParameter("userToken", FirebaseInstanceId.getInstance().token)
+        urlBuilder.addQueryParameter("description", "Balance top up")
+        urlBuilder.addQueryParameter("amount", amount.text.toString().trim())
+
+        val transactionObject = urlBuilder.build()
+        Log.e("OBJECT", transactionObject.toString())
+
+        val request = Request.Builder().url(transactionObject.toString()).build()
+        client.newCall(request).enqueue(object : Callback{
+            override fun onFailure(call: Call?, e: IOException?) {
+                Log.e(TAG, e?.localizedMessage)
+            }
+
+            override fun onResponse(call: Call?, response: Response?) {
+                if (response != null) {
+                    val res = response.body()!!.string()
+                    Log.e("Update balance res:", res)
+                    clearFields(phoneNumber, amount)
                 }
             }
         })
@@ -203,13 +258,16 @@ class MainActivity : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter(Config.REGISTRATION_COMPLETE))
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter(Config.PUSH_NOTIFICATION))
 
-        // clear the notification area when the app is opened
-        NotificationUtils(this).clearNotifications()
     }
 
     override fun onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
         super.onPause()
+    }
+
+    override fun onDestroy() {
+        dbRef.removeEventListener(balanceListener)
+        super.onDestroy()
     }
 
 }
