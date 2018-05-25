@@ -23,7 +23,6 @@ You'll need to setup firebase which in this case will be used for authentication
 2. A firebase assistant pane will open from the right.
 3. Click on 'Authentication' then connect to firebase, the authentication dependency will be added
 
-##### Update
 You can check the firebase functions repo here: https://github.com/tirgei/mpesa-daraja-functions
 
 
