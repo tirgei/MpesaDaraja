@@ -1,5 +1,5 @@
 # Mpesa Daraja
-This is a  sample android application to test Safaricom M-Pesa STK push using Twiga Engineering (https://github.com/twigaeng) android-daraja-sdk library (https://github.com/twigaeng/android-daraja-sdk)
+This is a  sample android application to test Safaricom M-Pesa STK push using [Twiga Engineering](https://github.com/twigaeng) android-daraja-sdk library, [android-daraja-sdk)](https://github.com/twigaeng/android-daraja-sdk).
 
 ## Requirements
 * Android Studio
@@ -23,8 +23,8 @@ You'll need to setup firebase which in this case will be used for authentication
 2. A firebase assistant pane will open from the right.
 3. Click on 'Authentication' then connect to firebase, the authentication dependency will be added
 
-You can check the firebase functions repo here: https://github.com/tirgei/mpesa-daraja-functions
-
+##### Update
+You can check the firebase functions repo here: [MpesaDaraja-Functions](https://github.com/tirgei/mpesa-daraja-functions)
 
 ## Getting started
 Create a Kotlin object named 'Constants' to hold the variables.
@@ -41,10 +41,8 @@ From the app you created in your developer console:
 You're now all set to tinker around, Happy Coding :)
 
 ## Screenshots
-<img src="screenshots/one.png" width="300" > 
-<img src="screenshots/two.png" width="300" > 
-<img src="screenshots/three.png" width="300" > 
-<img src="screenshots/four.png" width="300" > 
+<img src="screenshots/one.png" width="200" >  <img src="screenshots/two.png" width="200" > 
+<img src="screenshots/three.png" width="200" > <img src="screenshots/four.png" width="200" > 
 
 ### Libraries used
 1. Daraja - https://github.com/twigaeng/android-daraja-sdk
